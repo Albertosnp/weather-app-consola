@@ -1,9 +1,14 @@
-const { leerInput } = require("./helpers/inquirer");
+const { leerInput, inquirerMenu, pause } = require("./helpers/inquirer");
 require('colors')
 
 const main = async () => {
-  const texto = await leerInput()
-  console.log(texto.yellow);
+  let option = 0
+  do {
+    option = await inquirerMenu()
+    console.log("Ha elegido la opcion", option);
+
+    if (option !== 0) await pause()
+  } while (option !== 0);
 };
 
 main()
