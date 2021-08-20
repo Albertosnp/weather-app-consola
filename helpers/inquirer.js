@@ -67,7 +67,7 @@ const leerInput = async (message) => {
       message,
       validate(value) {
         if (value.length === 0) {
-          return 'Por favor ingrese un valor';
+          return 'Por favor introduzca el lugar que quiere buscar';
         }
         return true;
       }
@@ -78,54 +78,37 @@ const leerInput = async (message) => {
   return desc;
 }
 
-const borrarTarea = async (tareas = []) => {
-  tareas = tareas.map((tarea, index) => {
+const ciudadesAelegir = async (ciudades = []) => {
+  ciudades = ciudades.map((ciudad, index) => {
     return {
-      value: tarea.id,
-      name: `${++index}: `.green + `${tarea.desc}`,
+      //TODO cambiar
+      value: ciudad.id,
+      name: `${++index}: `.green + `${ciudad.place_name}`,
     }
   })
-  tareas.unshift({
+  ciudades.unshift({
     value: '0',
     name: `${'0: '.green} Cancelar`
   });
-  const preguntaBorrar = [
+  const ciudadesAelegir = [
       {
         type: "list",
         name: "opcion",
-        message: "¿Qué tarea desea borrar?",
-        choices: tareas,
+        message: "¿Qué ciudad quieres elegir?",
+        choices: ciudades,
       }
   ];
-  preguntaBorrar
-  const { opcion } = await inquirer.prompt(preguntaBorrar);
+
+  const { opcion } = await inquirer.prompt(ciudadesAelegir);
   return opcion;
 }
 
-const completaTareas = async (tareas = []) => {
-  const tareasAcompletar = [
-    {
-      type: "checkbox",
-      name: "opcion",
-      message: "¿Qué tarea deseas completar?",
-      choices: tareas.map((tarea, index) => {
-        return {
-          value: tarea.id,
-          name: `${++index}: `.green + `${tarea.desc}`,
-          checked: (tarea.completadoEn)? true : false
-        }
-      }),
-    }
-  ];
-  const { opcion } = await inquirer.prompt(tareasAcompletar);
-  return opcion;
-}
+
 
 module.exports = {
   inquirerMenu,
   pause,
   leerInput,
-  borrarTarea,
+  ciudadesAelegir,
   confirmar,
-  completaTareas,
 };
