@@ -1,18 +1,30 @@
 const { default: axios } = require("axios")
 
+
 class Busquedas {
 
   historial = []
   
   constructor() {
-    this.API_KEY = 'pk.eyJ1IjoiYWxiZXJ0b3NucCIsImEiOiJja3NrbDQ3Ym0yNmtoMnludThhNnNsbjkyIn0.qTuERVz1eynXCnT-yA-GAA'  
+    this.API_KEY = process.env.MAPBOX_KEY
+  }
+
+  get paramsMapBox() {
+    return {
+      'access_token': this.API_KEY,
+      'limit': 5,
+      'language': 'es'
+    }
   }
 
   async buscarCiudad(ciudad) {
-    const url = `https://api.mapbox.com/geocoding/v5/mapbox.places/${ciudad}.json?access_token=${this.API_KEY}`
+    const instance = axios.create({
+      baseURL: `https://api.mapbox.com/geocoding/v5/mapbox.places/${ciudad}.json`,
+      params: this.paramsMapBox  
+    })
     let datos = []
     try {
-      const { data } = await axios.get(url)
+      const { data } = await instance.get()
       datos = data.features
     } catch (error) {
       console.log(error.response);

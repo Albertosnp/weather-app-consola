@@ -1,6 +1,7 @@
 const { leerInput, inquirerMenu, pause, ciudadesAelegir } = require("./helpers/inquirer");
-const Busquedas = require("./models/Busquedas");
+require("dotenv").config()
 require('colors')
+const Busquedas = require("./models/Busquedas");
 
 const main = async () => {
   let option = 0
