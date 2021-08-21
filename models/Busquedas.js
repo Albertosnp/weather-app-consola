@@ -6,14 +6,38 @@ class Busquedas {
   historial = []
   
   constructor() {
-    this.API_KEY = process.env.MAPBOX_KEY
+    this.MAPBOX_KEY = process.env.MAPBOX_KEY
+    this.OPEN_WEATHER_KEY = process.env.OPEN_WEATHER_KEY
+  }
+
+  paramsOpenWeather(lat, lon) {
+    return {
+      'appid': this.OPEN_WEATHER_KEY,
+      'lat': lat,
+      'lon': lon,
+      'units': 'metric',
+      'lang': 'sp, es', 
+    }
   }
 
   get paramsMapBox() {
     return {
-      'access_token': this.API_KEY,
+      'access_token': this.MAPBOX_KEY,
       'limit': 5,
       'language': 'es'
+    }
+  }
+
+  async buscarClimaPorLugar(lat, lon) {
+    const instance = axios.create({
+      baseURL: 'https://api.openweathermap.org/data/2.5/weather',
+      params: this.paramsOpenWeather( lat, lon)
+    })
+    try {
+      const { data } = await instance.get()
+      return data
+    } catch (error) {
+      console.log(error);
     }
   }
 

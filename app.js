@@ -25,14 +25,15 @@ const buscarCiudad = async (busquedas) => {
   const lugares = await busquedas.buscarCiudad(lugar)
   //Seleccionar un lugar
   const id_lugar = await ciudadesAelegir(lugares)
-  const lugarSeleccionado = lugares.find(lugar => lugar.id === id_lugar)
+  const lugarSelecc = lugares.find(lugar => lugar.id === id_lugar)
+  const clima = await busquedas.buscarClimaPorLugar(lugarSelecc.lat, lugarSelecc.lng)
   await pause()
   //Mostrar los detalles del lugar clima
   console.log('\nInformación de la ciudad\n'.green);
-  console.log('Ciudad', lugarSeleccionado.nombre);
-  console.log('Latitud', lugarSeleccionado.lat);
-  console.log('Longitud', lugarSeleccionado.lng);
-  console.log('Temperatura', );
+  console.log('Ciudad', lugarSelecc.nombre);
+  console.log('Latitud', lugarSelecc.lat);
+  console.log('Longitud', lugarSelecc.lng);
+  console.log('Temperatura', clima.main);
 };
 
 
