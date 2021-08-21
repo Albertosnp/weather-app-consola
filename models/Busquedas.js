@@ -25,7 +25,12 @@ class Busquedas {
     let datos = []
     try {
       const { data } = await instance.get()
-      datos = data.features
+      datos = data.features.map(lugar => ({
+          id: lugar.id,
+          nombre: lugar.place_name,
+          lat: lugar.center[1],
+          lng: lugar.center[0]
+        }))
     } catch (error) {
       console.log(error.response);
       datos = []

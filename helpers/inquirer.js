@@ -81,9 +81,8 @@ const leerInput = async (message) => {
 const ciudadesAelegir = async (ciudades = []) => {
   ciudades = ciudades.map((ciudad, index) => {
     return {
-      //TODO cambiar
       value: ciudad.id,
-      name: `${++index}: `.green + `${ciudad.place_name}`,
+      name: `${++index}: `.green + `${ciudad.nombre}`,
     }
   })
   ciudades.unshift({
@@ -94,7 +93,7 @@ const ciudadesAelegir = async (ciudades = []) => {
       {
         type: "list",
         name: "opcion",
-        message: "¿Qué ciudad quieres elegir?",
+        message: "¿Qué lugar quieres elegir?",
         choices: ciudades,
       }
   ];
