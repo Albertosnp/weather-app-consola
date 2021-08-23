@@ -1,13 +1,14 @@
+const fs = require('fs');
 const { default: axios } = require("axios")
 
-
 class Busquedas {
-
+  dbPath = './db/db.json'
   historial = []
   
   constructor() {
     this.MAPBOX_KEY = process.env.MAPBOX_KEY
     this.OPEN_WEATHER_KEY = process.env.OPEN_WEATHER_KEY
+    this.historial = []
   }
 
   get paramsOpenWeather() {
@@ -58,6 +59,24 @@ class Busquedas {
       datos = []
     }
     return datos
+  }
+
+  agregarHistorial(ciudad = '') {
+    if (this.historial.includes(ciudad)) return 
+    
+    this.historial.push(ciudad)
+    this.guardarDB()
+  }
+
+  guardarDB() {
+    const payload = {
+      historial: this.historial
+    }
+    fs.writeFileSync(this.dbPath, JSON.stringify(payload))
+  }
+
+  leerDB() {
+
   }
 }
 

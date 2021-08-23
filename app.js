@@ -11,9 +11,11 @@ const main = async () => {
     switch (option) {
       case 1:
         await buscarCiudad(busquedas)
-        // Lee el input -> termino-ciudad
-        
         break;
+      case 2:
+        console.log('\nHistorial de búsquedas\n'.green);
+        console.log(busquedas.historial.join('\n'));
+        break;   
     }
     if (option !== 0) await pause()
   } while (option !== 0);
@@ -25,7 +27,9 @@ const buscarCiudad = async (busquedas) => {
   const lugares = await busquedas.buscarCiudad(lugar)
   //Seleccionar un lugar
   const id_lugar = await ciudadesAelegir(lugares)
+  if (id_lugar == 0) return
   const lugarSelecc = lugares.find(lugar => lugar.id === id_lugar)
+  //Llamada api de tiempo por coordenadas
   const clima = await busquedas.buscarClimaPorLugar(lugarSelecc.lat, lugarSelecc.lng)
 
   //Mostrar los detalles del lugar clima
@@ -36,6 +40,9 @@ const buscarCiudad = async (busquedas) => {
   console.log('Longitud', lugarSelecc.lng);
   console.log('Temperatura', clima.main);
   console.log('Descripción', clima.weather[0].description.green);
+
+  //Guardar en db
+  busquedas.agregarHistorial(lugar.toUpperCase())
 };
 
 
