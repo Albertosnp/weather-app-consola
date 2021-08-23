@@ -10,13 +10,11 @@ class Busquedas {
     this.OPEN_WEATHER_KEY = process.env.OPEN_WEATHER_KEY
   }
 
-  paramsOpenWeather(lat, lon) {
+  get paramsOpenWeather() {
     return {
       'appid': this.OPEN_WEATHER_KEY,
-      'lat': lat,
-      'lon': lon,
       'units': 'metric',
-      'lang': 'sp, es', 
+      'lang': 'es', 
     }
   }
 
@@ -31,10 +29,10 @@ class Busquedas {
   async buscarClimaPorLugar(lat, lon) {
     const instance = axios.create({
       baseURL: 'https://api.openweathermap.org/data/2.5/weather',
-      params: this.paramsOpenWeather( lat, lon)
+      params: {...this.paramsOpenWeather, lat, lon}
     })
     try {
-      const { data } = await instance.get()
+      const { data }  = await instance.get()
       return data
     } catch (error) {
       console.log(error);
