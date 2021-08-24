@@ -9,6 +9,7 @@ class Busquedas {
     this.MAPBOX_KEY = process.env.MAPBOX_KEY
     this.OPEN_WEATHER_KEY = process.env.OPEN_WEATHER_KEY
     this.historial = []
+    this.leerDB()
   }
 
   get paramsOpenWeather() {
@@ -76,7 +77,11 @@ class Busquedas {
   }
 
   leerDB() {
-
+    if (this.historial) {
+      const payload = fs.readFileSync(this.dbPath, 'utf-8')
+      const { historial }  = JSON.parse(payload)
+      this.historial = historial ?? []
+    }
   }
 }
 
